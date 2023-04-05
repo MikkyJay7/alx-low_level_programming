@@ -13,25 +13,25 @@
  */
 listint_t *find_listint_loop(listint_t *head)
 {
-	listint_t *slug = head;
-	listint_t *quick = head;
+	listint_t *slow = head;
+	listint_t *fast = head;
 
 	if (!head)
 		return (NULL);
 
-	while (slug && quick && quick->next)
+	while (slow && fast && fast->next)
 	{
-		quick = quick->next->next;
-		slug = slug->next;
-		if (quick == slug)
+		fast = fast->next->next;
+		slow = slow->next;
+		if (fast == slow)
 		{
-			slug = head;
-			while (slug != quick)
+			slow = head;
+			while (slow != fast)
 			{
-				slug = slug->next;
-				quick = quick->next;
+				slow = slow->next;
+				fast = fast->next;
 			}
-			return (quick);
+			return (fast);
 		}
 	}
 

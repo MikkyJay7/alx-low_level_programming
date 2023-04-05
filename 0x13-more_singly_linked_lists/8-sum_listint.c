@@ -4,23 +4,22 @@
  */
 
 #include "lists.h"
+#include <stdlib.h>
 
 /**
- * sum_listint - calculates the sum of all the data in a listint_t list
- * @head: first node in the linked list
- *
- * Return: resulting sum
- */
+ * sum_listint - Sum all of the data (n) in a list.
+ * @head: Address of the first node of the list.
+ * Return: Integer.
+ **/
+
 int sum_listint(listint_t *head)
 {
 	int sum = 0;
-	listint_t *tmp = head;
 
-	while (tmp)
+	while (head != NULL)
 	{
-		sum += tmp->n;
-		temp = tmp->next;
+		sum += head->n;
+		head = head->next;
 	}
-
 	return (sum);
 }
