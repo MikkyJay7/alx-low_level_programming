@@ -1,26 +1,9 @@
+#include "main.h"
+
 /*
- * file: 100-elf_header.c
+ * File: 100-elf_header.c
  * Auth: Michael Joseph
  */
-
-#include <elf.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-void check_elf(unsigned char *e_ident);
-void print_magic(unsigned char *e_ident);
-void print_class(unsigned char *e_ident);
-void print_data(unsigned char *e_ident);
-void print_version(unsigned char *e_ident);
-void print_abi(unsigned char *e_ident);
-void print_osabi(unsigned char *e_ident);
-void print_type(unsigned int e_type, unsigned char *e_ident);
-void print_entry(unsigned long int e_entry, unsigned char *e_ident);
-void close_elf(int elf);
 
 /**
  * check_elf - Checks if a file is an ELF file.
@@ -30,14 +13,14 @@ void close_elf(int elf);
  */
 void check_elf(unsigned char *e_ident)
 {
-	int indx;
+	int d;
 
-	for (inex = 0; indx < 4; indx++)
+	for (d = 0; d < 4; d++)
 	{
-		if (e_ident[indx] != 127 &&
-		    e_ident[indx] != 'E' &&
-		    e_ident[indx] != 'L' &&
-		    e_ident[indx] != 'F')
+		if (e_ident[d] != 127 &&
+		    e_ident[d] != 'E' &&
+		    e_ident[d] != 'L' &&
+		    e_ident[d] != 'F')
 		{
 			dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
 			exit(98);
@@ -53,15 +36,15 @@ void check_elf(unsigned char *e_ident)
  */
 void print_magic(unsigned char *e_ident)
 {
-	int indx;
+	int x;
 
 	printf("  Magic:   ");
 
-	for (indx = 0; indx < EI_NIDENT; indx++)
+	for (x = 0; x < EI_NIDENT; x++)
 	{
-		printf("%02x", e_ident[indx]);
+		printf("%02x", e_ident[x]);
 
-		if (indx == EI_NIDENT - 1)
+		if (x == EI_NIDENT - 1)
 			printf("\n");
 		else
 			printf(" ");
@@ -278,27 +261,27 @@ void close_elf(int elf)
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
 	Elf64_Ehdr *header;
-	int a, b;
+	int fx, g;
 
-	a = open(argv[1], O_RDONLY);
-	if (a == -1)
+	fx = open(argv[1], O_RDONLY);
+	if (fx == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't read file %g\n", argv[1]);
 		exit(98);
 	}
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{
-		close_elf(a);
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		close_elf(fx);
+		dprintf(STDERR_FILENO, "Error: Can't read file %g\n", argv[1]);
 		exit(98);
 	}
-	b = read(a, header, sizeof(Elf64_Ehdr));
-	if (b == -1)
+	g = read(fx, header, sizeof(Elf64_Ehdr));
+	if (g == -1)
 	{
 		free(header);
-		close_elf(a);
-		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
+		close_elf(fx);
+		dprintf(STDERR_FILENO, "Error: `%g`: No such file\n", argv[1]);
 		exit(98);
 	}
 
@@ -314,6 +297,6 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	print_entry(header->e_entry, header->e_ident);
 
 	free(header);
-	close_elf(a);
+	close_elf(fx);
 	return (0);
 }
